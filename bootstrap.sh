@@ -138,12 +138,35 @@ if [[ "$CLONE_LOCAL" == true ]]; then
 
   # ── Inyectar nombre del proyecto en Docker ──────────────────────
   log "Configurando entorno Docker para: ${PROJECT_NAME}"
-  cat > .env <<EOF
-# Generado automáticamente por Furnarius Bootstrap
-PROJECT_NAME=${PROJECT_NAME}
-COMPOSE_PROJECT_NAME=${PROJECT_NAME}
-APP_IMAGE=${PROJECT_NAME}-app:latest
-EOF
+  # ── Actualizar variables de proyecto en .env (sin borrar el resto) ──
+log "Actualizando configuración de Docker en .env..."
+
+# Función segura: reemplaza o agrega sin destruir el archivo
+update_env() {
+  local file=".env"
+  local key="$1"
+  local value="$2"
+  local tmp="${file}.tmp"
+  
+  # Crear si no existe
+  [[ -f "$file" ]] || touch "$file"
+  
+  # Eliminar instancias previas de la clave (seguro en macOS/Linux)
+  grep -v "^${key}=" "$file" > "$tmp" 2>/dev/null || true
+  mv "$tmp" "$file"
+  
+  # Agregar valor actualizado
+  echo "${key}=${value}" >> "$file"
+}
+
+# Actualizar solo las variables de proyecto
+update_env "PROJECT_NAME" "$PROJECT_NAME"
+update_env "COMPOSE_PROJECT_NAME" "$PROJECT_NAME"
+update_env "APP_IMAGE" "${PROJECT_NAME}-app:latest"
+
+chmod 600 .env 2>/dev/null || true
+log "✅ .env actualizado con PROJECT_NAME=${PROJECT_NAME}"
+# ───────────────────────────────────────────────────────────────────
   chmod 600 .env
   log "✅ .env generado con PROJECT_NAME=${PROJECT_NAME}"
   # ─────────────────────────────────────────────────────────────────
