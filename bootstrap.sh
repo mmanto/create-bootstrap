@@ -135,22 +135,24 @@ success "🎉 Repositorio creado: https://github.com/${TEMPLATE_OWNER}/${PROJECT
 if [[ "$CLONE_LOCAL" == true ]]; then
   cd "$PROJECT_NAME"
   log "📁 Proyecto clonado en: $(pwd)"
-  
-  # Verificar estructura esperada
+
+  # ── Inyectar nombre del proyecto en Docker ──────────────────────
+  log "Configurando entorno Docker para: ${PROJECT_NAME}"
+  cat > .env <<EOF
+# Generado automáticamente por Furnarius Bootstrap
+PROJECT_NAME=${PROJECT_NAME}
+COMPOSE_PROJECT_NAME=${PROJECT_NAME}
+APP_IMAGE=${PROJECT_NAME}-app:latest
+EOF
+  chmod 600 .env
+  log "✅ .env generado con PROJECT_NAME=${PROJECT_NAME}"
+  # ─────────────────────────────────────────────────────────────────
+
   if [[ -f "docs/prompts/ai-arch-dialogue.md" ]]; then
     info "✅ Template validado: prompts de arquitectura disponibles"
   else
     log "⚠️ Estructura del template diferente a la esperada. Revisar docs/"
   fi
-  
-  # Sugerir primeros pasos
-  echo ""
-  info "🚀 Próximos pasos:"
-  echo "   1. Abrir en Kiro: code .  (o tu editor preferido)"
-  echo "   2. Usar prompt: docs/prompts/ai-arch-dialogue.md"
-  echo "   3. Crear primer ADR: make new-adr TITLE='Inicialización'  (si existe Makefile)"
-  echo "   4. Configurar secrets en GitHub: Settings → Secrets and variables"
-  echo ""
 fi
 
 success "✅ Flujo Furnarius completado. ¡A desarrollar!"
