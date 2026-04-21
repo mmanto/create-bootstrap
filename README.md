@@ -1,6 +1,6 @@
 # 🏢 Furnarius Bootstrap Scripts
 
-Scripts oficiales de Devout para crear nuevos proyectos basados en el template **Furnarius** (`mmanto/furnarius`), con soporte para Desarrollo Basado en Arquitectura + Asistencia por IA.
+Scripts oficiales de Devbout para crear nuevos proyectos basados en el template **Furnarius** (`mmanto/furnarius`), con soporte para Desarrollo Basado en Arquitectura + Asistencia por IA.
 
 ## 🚀 Uso rápido
 
