@@ -7,7 +7,7 @@ Scripts oficiales de Devbout para crear nuevos proyectos basados en el template 
 ### Linux / macOS / WSL / Git Bash
 ```bash
 # Crear proyecto privado "mi-sistema"
-curl -fsSL https://raw.githubusercontent.com/mmanto/add-bootstrap/main/bootstrap.sh | bash -s -- --name=mi-sistema
+curl -fsSL https://raw.githubusercontent.com/mmanto/create-bootstrap/refs/tags/1.0.1/bootstrap.sh | bash -s -- --name=mi-sistema
 
 # Crear proyecto público
 curl -fsSL .../bootstrap.sh | bash -s -- --name=mi-sistema --public
